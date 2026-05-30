@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Very Average Calculator </title>
+        <style>
+            body{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+                font-family:sans sans-serif;
+                background-color: #9176e2;
+                
+
+            }
+
+            .calculator{
+                background-color: #3a3a2e;
+                border-radius: 16px;
+                padding:24px;
+                width: 420px;
+                box-shadow: 4px 6px 0px #1a1a12;
+                border: 3px solid #1a1a12;
+            }
+
+            .screen{
+                background-color: #b8c98a;
+                border-radius: 6px;
+                padding:12px 16px;
+                text-align: right;
+                margin-bottom: 20px;
+                border: 3px inset #7a9a50;
+            }
+
+            .screen-e{
+                font-family: 'Courier New', monospace;
+                font-size: 13px;
+                color: #428e04;
+                min-height: 18px;
+            }
+
+            .screen-main{
+                font-family: 'Courier New', monospace;
+                font-size: 36px;
+                color: #2a4a18;
+                font-weight: bold;
+            }
+
+            .screen-comment{
+                font-family:'Courier New', monospace ;
+                font-size: 11px;
+                color:#5a7a40;
+                font-style: italic;
+                min-height: 16px;
+                text-align: right;
+                margin-top: 4px;
+            }
+
+            .buttons{
+                display: grid;
+                grid-template-columns: repeat(4,1fr);
+                gap: 10px;
+            }
+
+            .butt{
+                padding: 16px;
+                font-size: 1.1rem;
+                font-family:'Courier New', monospace ;
+                font-weight: bold;
+                border-radius: 6px;
+                border: 2px solid #1a1a12;
+                cursor:pointer;
+                box-shadow: 2px 3px 0px #1a1a12;
+                transition: transform 0.05s, box-shadow 0.05s;
+            }
+
+            .butt-num{
+                background-color: #c8c0a0;
+                color: #1a1a12;                
+            }
+
+            .butt-eq{
+                background-color: #d05030;
+                color: #f0e8d0;
+            }
+
+            .butt-op{
+                background-color: #8aaa60;
+                color: #1a1a12;
+            }
+
+            .butt-clear{
+                background-color: #e08030;
+                color: #1a1a12;
+            }
+
+            .butt-wide{
+                grid-column: span 2;
+
+            }
+        
+            .butt:active{
+                transform: translateY(2px);
+                box-shadow: 0px 1px 0px #1a1a12;
+
+            }
+
+            .top-bar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 10px;
+
+            }
+
+            .brand{
+                font-family: 'Courier New', monospace ;
+                color: #a0c070;
+                letter-spacing: 4px;
+                font-size: 17px;
+
+            }
+
+            .solar-panel {
+                display: flex;
+                gap: 3px;
+                background-color: #2a1a0a;
+                padding: 5px ;
+                border-radius: 4px;
+                border : 1px solid;
+                width: fit-content;
+                margin-left: 300px;
+                margin-bottom: 9px;
+                margin-top: -30px;
+            }
+
+            .solar-line {
+                width: 20px;
+                height: 44px;
+                background-color: #4a2a10;
+                border-radius: 2px;
+                border: 1px solid #2a1208;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="calculator">
+            <div class = "Top-bar">
+                <div class="brand">CASIO (Definitely) </div>
+                <div class="solar-panel">
+                    <div class="solar-line"></div>
+                    <div class="solar-line"></div>
+                    <div class="solar-line"></div>
+                    <div class="solar-line"></div>
+                    <div class="solar-line"></div>
+                   
+                </div>
+            </div>
+
+            <div class="screen">
+                <div class="screen-e" id="expr"></div>
+                <div class="screen-main" id="main"></div>
+                <div class="screen-comment" id="comment"></div>
+            </div>
+
+            <div class="buttons">
+                <button class="butt butt-clear">AC</button>
+                <button class="butt butt-op">+/-</button>
+                <button class="butt butt-op">%</button>
+                <button class="butt butt-op">÷</button>
+
+                <button class="butt butt-num">7</button>
+                <button class="butt butt-num">8</button>
+                <button class="butt butt-num">9</button>
+                <button class="butt butt-op">×</button>
+
+                <button class="butt butt-num">4</button>
+                <button class="butt butt-num">5</button>
+                <button class="butt butt-num">6</button>
+                <button class="butt butt-op">−</button>
+
+                <button class="butt butt-num">1</button>
+                <button class="butt butt-num">2</button>
+                <button class="butt butt-num">3</button>
+                <button class="butt butt-op">+</button>
+
+                <button class="butt butt-num butt-wide">0</button>
+                <button class="butt butt-num">.</button>
+                <button class="butt butt-eq">=</button>
+                
+            </div>                  
+        </div>
+
+        <script>
+            const exprDisplay = document.getElementById("expr");
+            const mainDisplay = document.getElementById("main");
+            const commentDisplay = document.getElementById("comment");
+            const buttons = document.querySelectorAll(".butt");
+
+            let expression ="";
+            let typed ="";
+            let justEqualed ="";
+
+            const goofyResponses = [
+                "try again maybe idk duhh",
+                "does it matter?",
+                "yes",
+                "...",
+                "idk lol",
+                "I failed 5th grade",
+                "some number",
+                "ask mr rock",
+                "big number",
+                "thats not my problem",
+                "sure why not",
+                "pay first",
+                "error 404",
+                "ehh why should I tell you?",
+            ];
+
+            buttons.forEach(function(btn) {
+                btn.addEventListener("click",function() {
+                    const val = btn.textContent;
+
+                    if (val==="AC") {
+                        expression = "";
+                        typed = "";
+                        justEqualed = false;
+                        mainDisplay.textContent = "0";
+                        exprDisplay.textContent = "";
+                        commentDisplay.textContent = "";
+                        return;
+
+                        // what are you doing in my code (insert staring minion in the woods GIF)
+
+                    }
+
+                    if(val ==="=" ) {
+                        if (!typed && !expression) return;
+                        exprDisplay.textContent = expression + typed + "=";
+                        const random = goofyResponses[Math.floor(Math.random()* goofyResponses.length)];
+                        mainDisplay.textContent =  random;
+                        commentDisplay.textContent = "(calculated unsuccesfully)"
+                        expression = "";
+                        typed = "";
+                        justEqualed = true;
+                        return;
+                    }
+
+
+                    if (val==="+" || val === "×" || val==="−" || val==="÷") {
+                        expression += (typed || "") + " " + val + " ";
+                        typed= "";
+                        mainDisplay.textContent = expression;
+                        commentDisplay.textContent= "";
+                        return;
+                    }
+
+                    if(val===".") {
+                        if(typed.includes(".")) return;
+                        typed += typed ? "." : "0.";
+                        mainDisplay.textContent = expression + typed;
+                        return;
+                    }
+
+                    if(justEqualed){expression = ""; justEqualed= false ;}   
+                    typed += val;
+                    mainDisplay.textContent = expression + typed;
+                    commentDisplay.textContent= "";                 
+
+               })
+            })
+
+        </script>
+    </body>
+
+</html>
